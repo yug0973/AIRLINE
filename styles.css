@@ -1,0 +1,140 @@
+/* your-style.css */
+
+:root {
+    --primary-color: #0078D7;
+    --secondary-color: #0056A3;
+    --background-color: #f4f6f8;
+    --text-color: #333;
+    --button-hover-color: #0056a3;
+    --flight-card-bg: #ffffff;
+    --flight-card-shadow: rgba(0, 0, 0, 0.1);
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+  }
+  
+  .dashboard-header {
+    background: var(--primary-color);
+    padding: 10px 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    box-shadow: 0 2px 5px var(--flight-card-shadow);
+  }
+  
+  .dashboard-header nav a,
+  .dashboard-header button {
+    margin-left: 10px;
+    color: white;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+  
+  .dashboard-header nav a:hover,
+  .dashboard-header button:hover {
+    color: #cce6ff;
+  }
+  
+  .container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    background: var(--flight-card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px var(--flight-card-shadow);
+  }
+  
+  .container h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  
+  select,
+  input[type="date"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #fff;
+  }
+  
+  #searchBtn {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
+    color: white;
+    font-size: 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  #searchBtn:hover {
+    background: var(--button-hover-color);
+  }
+  
+  .flight-result {
+    margin-top: 30px;
+  }
+  
+  .flight-item {
+    background: var(--flight-card-bg);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px var(--flight-card-shadow);
+  }
+  
+  .flight-item strong {
+    font-size: 18px;
+    color: var(--secondary-color);
+  }
+  
+  .flight-item p {
+    margin: 8px 0;
+    font-size: 16px;
+  }
+  
+  .book-btn {
+    margin-top: 10px;
+    background: var(--secondary-color);
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .book-btn:hover {
+    background: #003b73;
+  }
+  
+  .no-flights {
+    text-align: center;
+    font-size: 18px;
+    color: var(--text-color);
+    margin-top: 20px;
+  }
+  

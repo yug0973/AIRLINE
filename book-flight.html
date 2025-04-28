@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirm Booking</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f4f8;
+      margin: 0;
+      padding: 40px;
+      text-align: center;
+    }
+    .booking-card {
+      background: white;
+      padding: 20px;
+      margin: auto;
+      max-width: 450px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #007bff;
+    }
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+    button {
+      background-color: #28a745;
+      border: none;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+
+<div class="booking-card">
+  <h1>Confirm Your Booking</h1>
+  <div id="flightDetails"></div>
+
+  <div class="form-group">
+    <label for="passengerName">Full Name:</label>
+    <input type="text" id="passengerName" placeholder="Enter your full name" required>
+  </div>
+
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="email" id="email" placeholder="Enter your email" required>
+  </div>
+
+  <div class="form-group">
+    <label for="phoneNumber">Phone Number:</label>
+    <input type="text" id="phoneNumber" placeholder="Enter your phone number" required>
+  </div>
+
+  <div class="form-group">
+    <label for="address">Address:</label>
+    <input type="text" id="address" placeholder="Enter your address" required>
+  </div>
+
+  <button onclick="confirmBooking()">Confirm Booking</button>
+</div>
+
+<script>
+// Retrieve selected flight ID
+const selectedFlightId = localStorage.getItem('selectedFlight');
+
+// Flight data (you can keep this static or replace it with real data from your database)
+const flightsData = [
+    { flight_id: 'AI501', airline: 'Air India' },
+    { flight_id: 'AI101', airline: 'Air India' },
+    { flight_id: 'IG201', airline: 'IndiGo' },
+    { flight_id: 'IG202', airline: 'IndiGo' },
+    { flight_id: 'SG301', airline: 'SpiceJet' },
+    { flight_id: 'SG302', airline: 'SpiceJet' },
+    { flight_id: '6E401', airline: 'IndiGo' },
+    { flight_id: '6E402', airline: 'IndiGo' }
+];
+
+const flight = flightsData.find(f => f.flight_id === selectedFlightId);
+
+if (flight) {
+    document.getElementById('flightDetails').innerHTML = `
+        <p><strong>Flight ID:</strong> ${flight.flight_id}</p>
+        <p><strong>Airline:</strong> ${flight.airline}</p>
+    `;
+} else {
+    document.getElementById('flightDetails').innerHTML = `<p>Flight details not found.</p>`;
+}
+
+function confirmBooking() {
+    const passengerName = document.getElementById('passengerName').value;
+    const email = document.getElementById('email').value;
+    const phoneNumber = document.getElementById('phoneNumber').value;
+    const address = document.getElementById('address').value;
+
+    // Check if all fields are filled
+    if (!passengerName || !email || !phoneNumber || !address) {
+        alert('Please fill out all the fields.');
+        return;
+    }
+
+    let tickets = JSON.parse(localStorage.getItem('myTickets')) || [];
+    tickets.push({
+        flight_id: flight.flight_id,
+        airline: flight.airline,
+        passenger_name: passengerName,
+        email: email,
+        phone_number: phoneNumber,
+        address: address,
+        booking_date: new Date().toLocaleDateString()
+    });
+    localStorage.setItem('myTickets', JSON.stringify(tickets));
+    alert('Booking Confirmed!');
+    window.location.href = 'my-tickets.html';
+}
+</script>
+
+</body>
+</html>

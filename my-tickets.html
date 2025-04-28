@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Tickets</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 40px;
+        }
+        h1 {
+            text-align: center;
+            color: #007bff;
+        }
+        .ticket {
+            background: white;
+            padding: 15px;
+            margin: 20px auto;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative; /* Make position relative for absolute positioning of button */
+        }
+        .no-ticket {
+            text-align: center;
+            color: red;
+            font-weight: bold;
+            margin-top: 50px;
+        }
+        button {
+            display: block;
+            margin: 20px auto;
+            background-color: #007bff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.3s ease;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .download-btn {
+            margin-top: 10px; /* Add space between ticket info and download button */
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.3s ease;
+            display: inline-block; /* Ensure it doesn't take full width */
+        }
+
+        .download-btn:hover {
+            background-color: #218838;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>My Tickets</h1>
+<div id="ticketsContainer"></div>
+<button onclick="window.location.href='flight_registration.html'">Go Back to Home Page</button>
+
+<script>
+const ticketsContainer = document.getElementById('ticketsContainer');
+let tickets = JSON.parse(localStorage.getItem('myTickets')) || [];
+
+function displayTickets() {
+    ticketsContainer.innerHTML = ''; // Clear previous tickets
+    if (tickets.length > 0) {
+        tickets.forEach((ticket, index) => {
+            const ticketDiv = document.createElement('div');
+            ticketDiv.className = 'ticket';
+            ticketDiv.innerHTML = `
+                <p><strong>Passenger Name:</strong> ${ticket.passenger_name}</p>
+                <p><strong>Email:</strong> ${ticket.email}</p>
+                <p><strong>Phone Number:</strong> ${ticket.phone_number}</p>
+                <p><strong>Address:</strong> ${ticket.address}</p>
+                <p><strong>Flight ID:</strong> ${ticket.flight_id}</p>
+                <p><strong>Airline:</strong> ${ticket.airline}</p>
+                <p><strong>Booking Date:</strong> ${ticket.booking_date}</p>
+                <button class="delete-btn" data-index="${index}">Delete Ticket</button>
+                <button class="download-btn" data-index="${index}">Download Ticket</button>
+            `;
+            ticketsContainer.appendChild(ticketDiv);
+        });
+    } else {
+        ticketsContainer.innerHTML = `<div class="no-ticket">No tickets booked yet.</div>`;
+    }
+}
+displayTickets();
+
+ticketsContainer.addEventListener('click', (event) => {
+    if (event.target.classList.contains('delete-btn')) {
+        const index = event.target.dataset.index;
+        tickets.splice(index, 1);
+        localStorage.setItem('myTickets', JSON.stringify(tickets));
+        displayTickets(); // Re-render the list after deletion
+    }
+
+    if (event.target.classList.contains('download-btn')) {
+        const index = event.target.dataset.index;
+        const ticketData = tickets[index];
+        // Generate a simple text format for the ticket
+        const ticketText = `
+            Passenger Name: ${ticketData.passenger_name}
+            Email: ${ticketData.email}
+            Phone Number: ${ticketData.phone_number}
+            Address: ${ticketData.address}
+            Flight ID: ${ticketData.flight_id}
+            Airline: ${ticketData.airline}
+            Booking Date: ${ticketData.booking_date}
+        `;
+
+        // Create a Blob (Binary Large Object)
+        const blob = new Blob([ticketText], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);  // Create a URL for the Blob
+
+        // Create a link and simulate a click to trigger download
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `ticket_${ticketData.flight_id}.txt`; // Suggest a filename
+        document.body.appendChild(a); // Append, trigger, and remove
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url); // Clean up the URL object
+    }
+});
+</script>
+</body>
+</html>

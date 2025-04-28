@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Airline Booking Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="dashboard-header">
+  <nav>
+    <a href="login.html">Login</a>
+    <button onclick="location.href='most-booked.html'">Most Booked</button>
+    <button onclick="location.href='my-tickets.html'">My Tickets</button>
+    <button onclick="location.href='customer-care.html'">Customer Care</button>
+    <button onclick="location.href='flight-status.html'">Flight Status</button>
+  </nav>
+</div>
+
+<div class="container">
+  <h1><span style="color: var(--secondary-color);">A</span>irline <span style="color: var(--secondary-color);">B</span>ooking</h1>
+
+  <div class="form-group">
+    <label for="departureCity">Departure City:</label>
+    <select id="departureCity">
+      <option value="">Select Departure</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Bengaluru">Bengaluru</option>
+      <option value="Hyderabad">Hyderabad</option>
+      <option value="Chennai">Chennai</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="arrivalCity">Arrival City:</label>
+    <select id="arrivalCity">
+      <option value="">Select Arrival</option>
+      <option value="Mumbai">Mumbai</option>
+      <option value="Delhi">Delhi</option>
+      <option value="Bengaluru">Bengaluru</option>
+      <option value="Hyderabad">Hyderabad</option>
+      <option value="Chennai">Chennai</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="departureDate">Departure Date:</label>
+    <input type="date" id="departureDate">
+  </div>
+
+  <button id="searchBtn">Search Flights</button>
+
+  <div class="flight-result" id="flightResult"></div>
+</div>
+
+<script>
+// Flight Data
+const flightsData = [
+  { flight_id: 'AI501', departure_city: 'Mumbai', arrival_city: 'Delhi', airline: 'Air India', departure_time: '10:00', arrival_time: '12:00', price: '₹5000', departure_date: '2025-04-30' },
+  { flight_id: 'AI101', departure_city: 'Delhi', arrival_city: 'Mumbai', airline: 'Air India', departure_time: '08:00', arrival_time: '10:00', price: '₹4800', departure_date: '2025-04-30' },
+  { flight_id: 'IG201', departure_city: 'Mumbai', arrival_city: 'Delhi', airline: 'IndiGo', departure_time: '13:00', arrival_time: '15:00', price: '₹4700', departure_date: '2025-05-01' },
+  { flight_id: 'IG202', departure_city: 'Delhi', arrival_city: 'Mumbai', airline: 'IndiGo', departure_time: '14:00', arrival_time: '16:00', price: '₹4600', departure_date: '2025-05-01' },
+  { flight_id: 'SG301', departure_city: 'Bengaluru', arrival_city: 'Hyderabad', airline: 'SpiceJet', departure_time: '09:00', arrival_time: '10:30', price: '₹3200', departure_date: '2025-04-30' },
+  { flight_id: 'SG302', departure_city: 'Hyderabad', arrival_city: 'Bengaluru', airline: 'SpiceJet', departure_time: '11:00', arrival_time: '12:30', price: '₹3100', departure_date: '2025-04-30' },
+  { flight_id: '6E401', departure_city: 'Chennai', arrival_city: 'Delhi', airline: 'IndiGo', departure_time: '07:00', arrival_time: '09:30', price: '₹5500', departure_date: '2025-05-01' },
+  { flight_id: '6E402', departure_city: 'Delhi', arrival_city: 'Chennai', airline: 'IndiGo', departure_time: '17:00', arrival_time: '19:30', price: '₹5400', departure_date: '2025-05-01' }
+];
+
+// Search flights
+document.getElementById('searchBtn').addEventListener('click', function() {
+  const departureCity = document.getElementById('departureCity').value;
+  const arrivalCity = document.getElementById('arrivalCity').value;
+  const departureDate = document.getElementById('departureDate').value;
+
+  if (!departureCity || !arrivalCity || !departureDate) {
+    alert("Please select all fields!");
+    return;
+  }
+
+  const selectedDate = new Date(departureDate);
+  const formattedDate = selectedDate.toISOString().split('T')[0];
+
+  const filteredFlights = flightsData.filter(flight =>
+    flight.departure_city === departureCity &&
+    flight.arrival_city === arrivalCity &&
+    flight.departure_date === formattedDate
+  );
+
+  const resultDiv = document.getElementById('flightResult');
+  resultDiv.innerHTML = '';
+
+  if (filteredFlights.length > 0) {
+    filteredFlights.forEach(flight => {
+      resultDiv.innerHTML += `
+        <div class="flight-item">
+          <strong>${flight.airline}</strong> | Flight: ${flight.flight_id}<br>
+          <p>${flight.departure_time} → ${flight.arrival_time}</p>
+          <p>Price: ${flight.price}</p>
+          <button class="book-btn" onclick="bookFlight('${flight.flight_id}')">Book Flight</button>
+        </div>
+      `;
+    });
+  } else {
+    resultDiv.innerHTML = '<div class="no-flights">No flights found for selected criteria.</div>';
+  }
+});
+
+// Book flight function
+function bookFlight(flightId) {
+  localStorage.setItem('selectedFlight', flightId);
+  window.location.href = 'book-flight.html';
+}
+</script>
+
+</body>
+</html>

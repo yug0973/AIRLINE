@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Most Booked Flights</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #ff9800;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .flight-item {
+            padding: 15px;
+            border-bottom: 1px dashed #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .flight-item:last-child {
+            border-bottom: none;
+        }
+
+        .flight-details {
+            flex-grow: 1;
+        }
+
+        .flight-details strong {
+            color: #333;
+        }
+
+        .book-button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .book-button:hover {
+            background-color: #1e7e34;
+        }
+
+        .back-button {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-button a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Most Booked Flights</h2>
+        <div id="mostBookedList">
+            <div class="flight-item">
+                <div class="flight-details">
+                    <strong>IndiGo:</strong> Bengaluru → Delhi (07:00 - 09:45) — ₹6800 (Booked 5 times)
+                </div>
+                <a href="#" class="book-button" onclick="bookFlight('IndiGo', 'Bengaluru', 'Delhi', '07:00 - 09:45', '₹6800')">Book Now</a>
+            </div>
+            <div class="flight-item">
+                <div class="flight-details">
+                    <strong>SpiceJet:</strong> Hyderabad → Mumbai (11:00 - 12:30) — ₹5200 (Booked 4 times)
+                </div>
+                <a href="#" class="book-button" onclick="bookFlight('SpiceJet', 'Hyderabad', 'Mumbai', '11:00 - 12:30', '₹5200')">Book Now</a>
+            </div>
+            <div class="flight-item">
+                <div class="flight-details">
+                    <strong>Air India:</strong> Pune → Chennai (14:00 - 15:45) — ₹5900 (Booked 3 times)
+                </div>
+                <a href="#" class="book-button" onclick="bookFlight('Air India', 'Pune', 'Chennai', '14:00 - 15:45', '₹5900')">Book Now</a>
+            </div>
+            <div class="flight-item">
+                <div class="flight-details">
+                    <strong>GoAir:</strong> Delhi → Bengaluru (16:30 - 19:15) — ₹7100 (Booked 3 times)
+                </div>
+                <a href="#" class="book-button" onclick="bookFlight('GoAir', 'Delhi', 'Bengaluru', '16:30 - 19:15', '₹7100')">Book Now</a>
+            </div>
+            <div class="flight-item">
+                <div class="flight-details">
+                    <strong>IndiGo:</strong> Mumbai → Chennai (18:00 - 19:45) — ₹6500 (Booked 2 times)
+                </div>
+                <a href="#" class="book-button" onclick="bookFlight('IndiGo', 'Mumbai', 'Chennai', '18:00 - 19:45', '₹6500')">Book Now</a>
+            </div>
+            <div class="flight-item">
+                <div class="flight-details">
+                    <strong>SpiceJet:</strong> Chennai → Hyderabad (10:00 - 11:15) — ₹4300 (Booked 1 time)
+                </div>
+                <a href="#" class="book-button" onclick="bookFlight('SpiceJet', 'Chennai', 'Hyderabad', '10:00 - 11:15', '₹4300')">Book Now</a>
+            </div>
+            <div class="flight-item">
+                <div class="flight-details">
+                    <strong>Vistara:</strong> Hyderabad → Delhi (20:00 - 22:15) — ₹7500 (Booked 1 time)
+                </div>
+                <a href="#" class="book-button" onclick="bookFlight('Vistara', 'Hyderabad', 'Delhi', '20:00 - 22:15', '₹7500')">Book Now</a>
+            </div>
+        </div>
+
+        <div class="back-button">
+            <a href="flight_registration.html">← Back to Booking</a>
+        </div>
+    </div>
+
+    <script>
+        function bookFlight(airline, departure, arrival, time, price) {
+            // Store the flight details in localStorage
+            const selectedFlight = {
+                airline: airline,
+                departure: departure,
+                arrival: arrival,
+                time: time,
+                price: price
+            };
+            localStorage.setItem('selectedFlight', JSON.stringify(selectedFlight));
+
+            // Redirect to booking page
+            window.location.href = 'book-flight.html';
+        }
+    </script>
+</body>
+</html>
